@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "sass": "^1.76.0"
+  },
+  "devDependencies": {
+    "onchange": "^7.1.0",
+    "prettier": "3.2.5"
+  }
+}

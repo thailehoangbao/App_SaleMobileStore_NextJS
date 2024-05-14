@@ -1,0 +1,77 @@
+1. Cài đặt ESLint và Prettier
+npm install eslint prettier eslint-config-prettier eslint-plugin-prettier -D
+2. Cấu hình ESLint và Prettier
+Tạo một tệp .eslintrc trong thư mục gốc của dự án và thêm cấu hình sau:
+{
+    "extends": [
+        "next",
+        "next/core-web-vitals",
+        "prettier"
+    ],
+    "plugins": [
+        "next",
+        "prettier"
+    ],
+    "rules": {
+        "prettier/prettier": [
+            "warn",{
+                "arrowParens": "always",
+                "singleQuote": true,
+                "bracketSameLine": false,
+                "bracketSpacing": true,
+                "embeddedLanguageFormatting": "auto",
+                "htmlWhitespaceSensitivity": "css",
+                "insertPragma": false,
+                "jsxSingleQuote": false,
+                "printWidth": 120,
+                "proseWrap": "preserve",
+                "quoteProps": "as-needed",
+                "requirePragma": false,
+                "semi": true,
+                "tabWidth": 4,
+                "trailingComma": "all",
+                "useTabs": false,
+                "vueIndentScriptAndStyle": false,
+                "arrowParents": "avoid"
+            }
+            
+        ]
+    }
+}
+
+3. Tạo các tệp cấu hình Prettier
+Tạo một tệp .prettierrc trong thư mục gốc của dự án và thêm cấu hình sau hoặc chỉnh sửa theo sở thích của bạn:
+{
+    "arrowParens": "always",
+    "singleQuote": true,
+    "bracketSameLine": false,
+    "bracketSpacing": true,
+    "embeddedLanguageFormatting": "auto",
+    "htmlWhitespaceSensitivity": "css",
+    "insertPragma": false,
+    "jsxSingleQuote": false,
+    "printWidth": 120,
+    "proseWrap": "preserve",
+    "quoteProps": "as-needed",
+    "requirePragma": false,
+    "semi": true,
+    "tabWidth": 4,
+    "trailingComma": "all",
+    "useTabs": false,
+    "vueIndentScriptAndStyle": false
+}
+
+4. Tùy chỉnh package.json
+Thêm các scripts vào package.json để chạy ESLint và Prettier:
+"scripts": {
+        "lint": "eslint --ext js,jsx,ts,tsx src/",
+        "lint:fix": "eslint --fix ext js,jsx,ts,tsx src/",
+        "format": "prettier --write .",
+        "prettier": "prettier --check \"src/**/(**.jsx|*.js|*.scss|*.css|*.ts|*.tsx)\"",
+        "prettier:fix": "prettier --write \"src/**/(**.jsx|*.js|*.scss|*.css|*.ts|*.tsx)\""
+}
+
+5. Sử dụng
+Chạy npm run lint để kiểm tra lỗi trong code của bạn.
+Chạy npm run prettier:fix để tự động sửa các lỗi có thể sửa được.
+Chạy npm run format để tự động format toàn bộ code trong dự án của bạn.
