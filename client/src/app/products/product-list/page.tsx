@@ -24,6 +24,7 @@ const ButtonLinkToDelete = dynamic(() => import('./ButtonLinkToDelete'), { ssr: 
 type ProductList = ProductListResType['data']
 type Product = ProductResType['data']
 
+
 export default async function ProductList() {
     const cookieStore = cookies()
     // const sessionToken = cookieStore.get('sessionToken')
