@@ -1,31 +1,44 @@
 'use client'
 import authApiRequest from '@/apiRequest/auth'
-import { sessionTokenClient } from '@/lib/http'
+import { useAppContext } from '@/app/AppProvider'
+// import { sessionTokenClient } from '@/lib/http'
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 
-export default function Logout() {
+async function LogoutLogic() {
     const searchParams = useSearchParams()
     const pathname = usePathname() // pathname = /logout
     const router = useRouter()
+    const {setUser} : any = useAppContext();
     
     const sessionToken = searchParams.get('sessionToken')
     useEffect(() => {
         const controller = new AbortController()
         const signal = controller.signal
-        if(sessionToken === sessionTokenClient.value) {
-            authApiRequest.logoutFormNextClientToNextServer(true,signal)
+        // const sessionTokenStore = sessionTokenClient.value;
+        if(sessionToken === localStorage.getItem('sessionToken')) {
+            authApiRequest
+            .logoutFormNextClientToNextServer(true,signal)
             .then(res  => {
+                setUser(null)
                 router.push(`/login?redirectLogin=${pathname}`)
             })
         }
         return () => {
             controller.abort()
         }
-    }, [sessionToken,pathname,router])
+    }, [sessionToken,pathname,router,setUser])
     return (
         <div>
             Logout
         </div>
+    )
+}
+
+export default function Logout() {
+    return (
+        <Suspense>
+            <LogoutLogic />
+        </Suspense>
     )
 }

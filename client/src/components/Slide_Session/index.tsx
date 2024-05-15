@@ -4,8 +4,8 @@ import { Button } from "../ui/button";
 import { handleErrorApi } from "@/lib/utils";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { sessionTokenClient } from "@/lib/http";
-import {differenceInHours} from 'date-fns'
+// import { sessionTokenClient } from "@/lib/http";
+// import {differenceInHours} from 'date-fns'
 
 function SlideSession() {
     const router = useRouter()
@@ -25,7 +25,8 @@ function SlideSession() {
     const handleSlide = async () => { 
         try {
             const result = await authApiRequest.slideSessionNextClientToNextServer();
-            sessionTokenClient.expiresAt = result.payload.data.expiresAt
+            // sessionTokenClient.expiresAt = result.payload.data.expiresAt
+            localStorage.setItem('expiresAt', result.payload.data.expiresAt)
             router.refresh()
         } catch (error) {
             handleErrorApi({error})

@@ -9,8 +9,9 @@ import { RegisterBody, RegisterBodyType, RegisterResType } from '@/components/sc
 import authApiRequest from '@/apiRequest/auth';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { sessionTokenClient } from '@/lib/http';
+// import { sessionTokenClient } from '@/lib/http';
 import { handleErrorApi } from '@/lib/utils';
+import { useAppContext } from '@/app/AppProvider';
 // import { useAppContext } from '@/app/AppProvider';
 type PayloadType = {
     payload: {
@@ -24,6 +25,7 @@ function RegiterForm() {
     const [loading,setLoading] = useState(false);
     const { toast } = useToast();
     const router = useRouter()
+    const { setUser }: any = useAppContext();
     // const { setSessionToken } = useAppContext();
     const form = useForm<RegisterBodyType>({
         resolver: zodResolver(RegisterBody),
@@ -45,14 +47,16 @@ function RegiterForm() {
             const {payload} : {payload: RegisterResType} = await authApiRequest.register(values)
 
             //Khi login Thành công gọi 1 api đến next server để setCookies
-            await authApiRequest.authNextServer({ sessionToken: payload.data.token, expiresAt: sessionTokenClient.expiresAt})
+            await authApiRequest.authNextServer({ sessionToken: payload.data.token, expiresAt: payload.data.expiresAt})
+            // await authApiRequest.authNextServer({ sessionToken: payload.data.token, expiresAt: sessionTokenClient.expiresAt})
             // sau khi lưu cookie trên server xong set lại sessionToken vào cho các compoent ở client đều xài dc trong context
             // setSessionToken(result.payload.data.token);
-            sessionTokenClient.value = payload?.data.token;
+            // sessionTokenClient.value = payload?.data.token;
             toast({
                 title: 'Đăng Nhập Thành Công',
                 description: payload?.message,
             });
+            setUser(payload.data.account);
             router.push('/login');
             router.refresh();
         } catch (error: any) {

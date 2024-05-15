@@ -1,11 +1,11 @@
 'use client';
-import React, {  Ref, RefObject, useRef, useState } from 'react';
+import React, { Ref, RefObject, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {  LoginResType } from '@/components/schemaValidations/auth.schema';
+import { LoginResType } from '@/components/schemaValidations/auth.schema';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { handleErrorApi } from '@/lib/utils';
@@ -14,10 +14,11 @@ import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
 import productsApiRequest from '@/apiRequest/product';
 
+
 function AddFormProduct() {
     const refInput = useRef<HTMLInputElement | null>(null)
     const [image, setImage] = useState<File | null>(null);
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { toast } = useToast();
     const router = useRouter()
     const form = useForm<CreateProductBodyType>({
@@ -31,7 +32,7 @@ function AddFormProduct() {
     });
     // 2. Define a submit handler.
     async function onSubmit(values: CreateProductBodyType) {
-        if(loading) {
+        if (loading) {
             return
         }
         setLoading(true);
@@ -59,6 +60,7 @@ function AddFormProduct() {
             })
         } finally {
             setLoading(false);
+
         }
     }
     return (
@@ -115,16 +117,16 @@ function AddFormProduct() {
                         <FormItem>
                             <FormLabel>Hình Ảnh </FormLabel>
                             <FormControl>
-                                <Input 
+                                <Input
                                     ref={refInput}
-                                    placeholder="Nhập Hình Ảnh" 
-                                    type="file" 
+                                    placeholder="Nhập Hình Ảnh"
+                                    type="file"
                                     accept='image/*'
                                     onChange={(e) => {
                                         const file = e.target.files?.[0];
                                         if (file) {
                                             setImage(file);
-                                            field.onChange('http://localhost:3000/'+ file.name);
+                                            field.onChange('http://localhost:3000/' + file.name);
                                         }
                                     }}
                                 />
@@ -139,14 +141,14 @@ function AddFormProduct() {
                         <Button onClick={() => {
                             setImage(null)
                             form.setValue('image', '')
-                            if(refInput.current) {
+                            if (refInput.current) {
                                 refInput.current.value = ''
                             }
                         }}>Xóa Ảnh</Button>
                     </div>
-                
-                ) }
-                <Button type="submit">Cập Nhật</Button>
+
+                )}
+                <Button type="submit">Thêm Sản Phẩm</Button>
             </form>
         </Form>
     );

@@ -9,7 +9,7 @@ import { LoginBody, LoginBodyType, LoginResType } from '@/components/schemaValid
 import { useToast } from '@/components/ui/use-toast';
 import authApiRequest from '@/apiRequest/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { sessionTokenClient } from '@/lib/http';
+// import { sessionTokenClient } from '@/lib/http';
 import { handleErrorApi } from '@/lib/utils';
 import { AccountResType, UpdateMeBody, UpdateMeBodyType } from '@/components/schemaValidations/account.schema';
 import accountApiRequest from '@/apiRequest/account';

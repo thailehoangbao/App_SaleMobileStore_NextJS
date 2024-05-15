@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 // import { useAppContext } from '../AppProvider';
 import accountApiRequest from '@/apiRequest/account';
-import { sessionTokenClient } from '@/lib/http';
+// import { sessionTokenClient } from '@/lib/http';
 import { AccountResType } from '@/components/schemaValidations/account.schema';
 type PayloadType = {
     payload: AccountResType | Response;

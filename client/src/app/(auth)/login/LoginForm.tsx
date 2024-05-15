@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -10,8 +10,10 @@ import { useToast } from '@/components/ui/use-toast';
 // import { useAppContext } from '@/app/AppProvider';
 import authApiRequest from '@/apiRequest/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { sessionTokenClient } from '@/lib/http';
+// import { sessionTokenClient } from '@/lib/http';
 import { handleErrorApi } from '@/lib/utils';
+import { useAppContext } from '@/app/AppProvider';
+import { AccountResType } from '@/components/schemaValidations/account.schema';
 type PayloadType = {
     payload: {
         data: LoginResType | Response;
@@ -19,10 +21,11 @@ type PayloadType = {
     } | Response,
     status: number;
 }
-function LoginForm() {
+function LoginFormLogic() {
     const searchParams = useSearchParams();
     const pathname = searchParams.get('redirectLogin');
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const {setUser} : any = useAppContext();
     const { toast } = useToast();
     const router = useRouter()
     // const { setSessionToken } = useAppContext();
@@ -35,23 +38,26 @@ function LoginForm() {
     });
     // 2. Define a submit handler.
     async function onSubmit(values: LoginBodyType) {
-        if(loading) {
+        if (loading) {
             return
         }
         setLoading(true);
         //subtmit thành công in values
         try {
-            const {payload} : {payload : LoginResType} = await authApiRequest.login(values)
+            const { payload }: { payload: LoginResType } = await authApiRequest.login(values)
             //Khi login Thành công gọi 1 api đến next server để setCookies
-            await authApiRequest.authNextServer({ sessionToken: payload?.data.token, expiresAt: sessionTokenClient.expiresAt})
+            await authApiRequest.authNextServer({ sessionToken: payload?.data.token, expiresAt: payload?.data.expiresAt })
+
+            // await authApiRequest.authNextServer({ sessionToken: payload?.data.token, expiresAt: sessionTokenClient.expiresAt})
             // console.log(resultFromNextServer)
             // sau khi lưu cookie trên server xong set lại sessionToken vào cho các compoent ở client đều xài dc trong context
             // setSessionToken(result.payload.data.token);
-            sessionTokenClient.value = payload?.data.token;
+            // sessionTokenClient.value = payload?.data.token;
             toast({
                 title: 'Đăng Nhập Thành Công',
                 description: payload.message
             });
+            setUser(payload.data.account)
             router.push('/me');
             router.refresh();
         } catch (error: any) {
@@ -65,13 +71,13 @@ function LoginForm() {
         }
     }
     useEffect(() => {
-        if(pathname === '/logout') {
+        if (pathname === '/logout') {
             toast({
                 title: 'Buộc Đăng Xuất Thành Công',
-                description: 'Bạn đã đăng xuất khỏi hệ thống',            
+                description: 'Bạn đã đăng xuất khỏi hệ thống',
             })
         }
-    },[])
+    }, [pathname, toast])
     return (
         <Form {...form}>
             <form
@@ -112,4 +118,10 @@ function LoginForm() {
     );
 }
 
-export default LoginForm;
+export default function LoginForm() {
+    return (
+        <Suspense>
+            <LoginFormLogic />
+        </Suspense>
+    )
+};

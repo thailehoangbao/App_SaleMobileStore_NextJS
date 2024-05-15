@@ -14,14 +14,17 @@ import {
 import productsApiRequest from "@/apiRequest/product";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { HttpError, sessionTokenClient } from "@/lib/http";
+import { HttpError } from "@/lib/http";
+
+// import { HttpError, sessionTokenClient } from "@/lib/http";
 import { handleErrorApi } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 function ButtonDelete({ id }: { id: number }) {
     const { toast } = useToast();
     const router = useRouter();
-    const sessionToken = sessionTokenClient.value;
+    // const sessionToken = sessionTokenClient.value;
+    const sessionToken = String(localStorage.getItem('sessionToken'));
     const handleDelete = async () => {
         try {
             const { payload } = await productsApiRequest.productDelete(id, sessionToken, {});
