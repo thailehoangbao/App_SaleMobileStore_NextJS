@@ -1,26 +1,17 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { LoginBody, LoginBodyType, LoginResType } from '@/components/schemaValidations/auth.schema';
 import { useToast } from '@/components/ui/use-toast';
-import authApiRequest from '@/apiRequest/auth';
-import { useRouter, useSearchParams } from 'next/navigation';
-// import { sessionTokenClient } from '@/lib/http';
+import { useRouter } from 'next/navigation';
 import { handleErrorApi } from '@/lib/utils';
 import { AccountResType, UpdateMeBody, UpdateMeBodyType } from '@/components/schemaValidations/account.schema';
 import accountApiRequest from '@/apiRequest/account';
 import SlideSession from '@/components/Slide_Session';
-type PayloadType = {
-    payload: {
-        data: LoginResType | Response;
-        message: string;
-    } | Response,
-    status: number;
-}
+
 type ProfileType = AccountResType['data']
 function ProfileForm({ profile }: { profile: ProfileType }) {
     const [loading, setLoading] = useState(false);

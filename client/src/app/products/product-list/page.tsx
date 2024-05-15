@@ -10,12 +10,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { ProductListResType, ProductResType } from '@/components/schemaValidations/product.schema';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import ButtonDelete from '../_components/button-delete';
 import { cookies } from 'next/headers';
-// import ButtonLinkToDetail from './ButtonLinkToDetail';
-// import ButtonLinkToDelete from './ButtonLinkToDelete';
 import dynamic from 'next/dynamic';
 const ButtonLinkToDetail = dynamic(() => import('./ButtonLinkToDetail'), { ssr: false })
 const ButtonLinkToDelete = dynamic(() => import('./ButtonLinkToDelete'), { ssr: false })
@@ -27,10 +22,8 @@ type Product = ProductResType['data']
 
 export default async function ProductList() {
     const cookieStore = cookies()
-    // const sessionToken = cookieStore.get('sessionToken')
-    // const isAuth = sessionToken ? true : false
-    const { payload } : {payload : ProductListResType} = await productsApiRequest.products();
-    const productLists : ProductList = payload?.data;
+    const { payload }: { payload: ProductListResType } = await productsApiRequest.products();
+    const productLists: ProductList = payload?.data;
     return (
         <div>
             <h1 className='text-center mt-10'>DANH SÁCH SẢN PHẨM</h1>
@@ -44,29 +37,12 @@ export default async function ProductList() {
                             </CardHeader>
                             <CardContent>
                                 <p>Giá bán: {product.price}$</p>
-                                {/* {!isAuth ? (
-                                    <Link href={`/products/product-detail/${product.id}`}>
-                                        <Image src={product.image} alt={product.name} width={60} height={60} />
-                                    </Link>
-                                ) : (
-                                    <Image src={product.image} alt={product.name} width={60} height={60} />
-                                )} */}
-                                <ButtonLinkToDetail product={product}/>
+                                <ButtonLinkToDetail product={product} />
                             </CardContent>
                             <CardContent>
                                 <p>Chi tiết: {product?.description}</p>
                             </CardContent>
-                            {/* {
-                                // isAuth && (
-                                //     <CardFooter >
-                                //         <Link href={`/products/product-detail/${product?.id}`}>
-                                //             <Button className='bg-green-500 text-white hover:text-green-500'>Detail</Button>
-                                //         </Link>
-                                //         <ButtonDelete id={product?.id} />
-                                //     </CardFooter>
-                                // )
-                            } */}
-                            <ButtonLinkToDelete product={product}/>
+                            <ButtonLinkToDelete product={product} />
                         </Card>
                     </div>
                 ))}

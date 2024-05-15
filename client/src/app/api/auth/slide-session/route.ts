@@ -1,9 +1,5 @@
-// import { PayloadJWT, decodeJWT } from "@/lib/utils";
-
 import authApiRequest from "@/apiRequest/auth";
 import { HttpError } from "@/lib/http";
-
-// import { HttpError, sessionTokenClient } from "@/lib/http";
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {

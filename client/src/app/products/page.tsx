@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-// import AddFormProduct from "./_add-product";
 import ProductList from "./product-list/page";
 
 //SEO
@@ -12,8 +11,6 @@ export const metadata: Metadata = {
 function Product() {
     return ( <div>
         <h1>Product Page</h1>
-        {/* <AddFormProduct /> */}
-        {/* <ProductList /> */}
     </div> );
 }
 

@@ -1,7 +1,6 @@
 import productsApiRequest from "@/apiRequest/product";
 import { cache } from 'react'
 import { baseOpenGraph } from "@/app/shared-metadata";
-import { AccountResType } from "@/components/schemaValidations/account.schema";
 import { Button } from "@/components/ui/button";
 import {
     Card,

@@ -7,20 +7,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { LoginBody, LoginBodyType, LoginResType } from '@/components/schemaValidations/auth.schema';
 import { useToast } from '@/components/ui/use-toast';
-// import { useAppContext } from '@/app/AppProvider';
 import authApiRequest from '@/apiRequest/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
-// import { sessionTokenClient } from '@/lib/http';
 import { handleErrorApi } from '@/lib/utils';
 import { useAppContext } from '@/app/AppProvider';
-import { AccountResType } from '@/components/schemaValidations/account.schema';
-type PayloadType = {
-    payload: {
-        data: LoginResType | Response;
-        message: string;
-    } | Response,
-    status: number;
-}
+
 function LoginFormLogic() {
     const searchParams = useSearchParams();
     const pathname = searchParams.get('redirectLogin');
@@ -28,7 +19,6 @@ function LoginFormLogic() {
     const {setUser} : any = useAppContext();
     const { toast } = useToast();
     const router = useRouter()
-    // const { setSessionToken } = useAppContext();
     const form = useForm<LoginBodyType>({
         resolver: zodResolver(LoginBody),
         defaultValues: {
@@ -47,12 +37,6 @@ function LoginFormLogic() {
             const { payload }: { payload: LoginResType } = await authApiRequest.login(values)
             //Khi login Thành công gọi 1 api đến next server để setCookies
             await authApiRequest.authNextServer({ sessionToken: payload?.data.token, expiresAt: payload?.data.expiresAt })
-
-            // await authApiRequest.authNextServer({ sessionToken: payload?.data.token, expiresAt: sessionTokenClient.expiresAt})
-            // console.log(resultFromNextServer)
-            // sau khi lưu cookie trên server xong set lại sessionToken vào cho các compoent ở client đều xài dc trong context
-            // setSessionToken(result.payload.data.token);
-            // sessionTokenClient.value = payload?.data.token;
             toast({
                 title: 'Đăng Nhập Thành Công',
                 description: payload.message

@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers';
-import Profile from './profile';
 import accountApiRequest from '@/apiRequest/account';
 import { AccountResType } from '@/components/schemaValidations/account.schema';
 import ProfileForm from './profile-form';

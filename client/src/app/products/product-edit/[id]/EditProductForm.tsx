@@ -1,11 +1,10 @@
 'use client';
-import React, { Ref, RefObject, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { LoginResType } from '@/components/schemaValidations/auth.schema';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { handleErrorApi } from '@/lib/utils';

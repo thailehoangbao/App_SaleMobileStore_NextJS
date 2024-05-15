@@ -1,8 +1,7 @@
 'use client'
 import authApiRequest from '@/apiRequest/auth'
 import { useAppContext } from '@/app/AppProvider'
-// import { sessionTokenClient } from '@/lib/http'
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { Suspense, useEffect } from 'react'
 
 async function LogoutLogic() {
@@ -15,7 +14,6 @@ async function LogoutLogic() {
     useEffect(() => {
         const controller = new AbortController()
         const signal = controller.signal
-        // const sessionTokenStore = sessionTokenClient.value;
         if(sessionToken === localStorage.getItem('sessionToken')) {
             authApiRequest
             .logoutFormNextClientToNextServer(true,signal)

@@ -1,7 +1,6 @@
 'use client';
 import { AccountRes, AccountResType } from '@/components/schemaValidations/account.schema';
 import { isClient } from '@/lib/http';
-// import { sessionTokenClient } from '@/lib/http';
 import { ReactNode, createContext, useContext, useState } from 'react';
 
 type User = AccountResType['data'];
@@ -11,8 +10,6 @@ export const AppContext = createContext<{
     setUser: (user: User | null ) => void;
     isAuthenticated: boolean;
 }>({
-    // sessionToken: '',
-    // setSessionToken: (sessionToken: string) => {},
     user : null ,
     setUser : () => {},
     isAuthenticated: false,
@@ -28,12 +25,9 @@ export const useAppContext = () => {
 
 export default function AppProvider({
     children,
-    // innititalSessionToken = '',
-    // user : _user
 }: {
     children: ReactNode;
-    // innititalSessionToken?: string;
-    // user : User | undefined;
+
 }) {
     const [user, setUserState] = useState<User | null>(() => {
         if(isClient()) {
@@ -47,12 +41,6 @@ export default function AppProvider({
         setUserState(user);
         localStorage.setItem('user', JSON.stringify(user));
     }
-    // const [sessionToken, setSessionToken] = useState(innititalSessionToken);
-    // return <AppContext.Provider value={{ sessionToken, setSessionToken }}>{children}</AppContext.Provider>;
-    // useState(() => {
-    //     if (typeof window !== 'undefined') {
-    //         sessionTokenClient.value = innititalSessionToken;
-    //     }
-    // })
+
     return <AppContext.Provider value={{user,setUser,isAuthenticated}}>{children}</AppContext.Provider>;
 }
